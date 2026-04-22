@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaathYatra – Travel Together</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #FF6B00; --saffron-light: #FF8C3A;
+    --green: #1A7A4A;   --green-light: #25A865;
+    --cream: #FFF8EE;   --brown: #3D1F00;
+    --sky: #E8F4FD;     --white: #FFFFFF;
+    --shadow: 0 4px 24px rgba(61,31,0,0.10);
+    --shadow-lg: 0 8px 40px rgba(61,31,0,0.16);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Hind',sans-serif; background:var(--cream); color:var(--brown); min-height:100vh; overflow-x:hidden; }
+
+  nav { background:var(--white); padding:0 5%; display:flex; align-items:center; justify-content:space-between; height:64px; box-shadow:0 2px 12px rgba(61,31,0,0.08); position:sticky; top:0; z-index:100; }
+  .logo { font-family:'Baloo 2',cursive; font-size:1.6rem; font-weight:800; color:var(--saffron); }
+  .logo span { color:var(--green); }
+  .nav-links { display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  .nav-links a { text-decoration:none; color:var(--brown); font-weight:500; font-size:0.9rem; cursor:pointer; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--saffron); }
+  .btn-nav { background:var(--saffron); color:white !important; padding:8px 18px; border-radius:24px; font-weight:600 !important; }
+
+  .hero { background:linear-gradient(135deg,#FF6B00 0%,#FF8C3A 40%,#25A865 100%); padding:64px 5% 80px; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-60px; right:-60px; width:320px; height:320px; background:rgba(255,255,255,0.08); border-radius:50%; }
+  .hero-content { max-width:560px; position:relative; z-index:1; }
+  .hero-badge { display:inline-block; background:rgba(255,255,255,0.2); color:white; font-size:0.8rem; font-weight:600; padding:4px 14px; border-radius:20px; margin-bottom:16px; text-transform:uppercase; }
+  .hero h1 { font-family:'Baloo 2',cursive; font-size:2.8rem; font-weight:800; color:white; line-height:1.15; margin-bottom:14px; }
+  .hero p { color:rgba(255,255,255,0.92); font-size:1.05rem; line-height:1.6; margin-bottom:28px; }
+  .hero-btns { display:flex; gap:12px; flex-wrap:wrap; }
+  .btn-primary { background:white; color:var(--saffron); padding:13px 28px; border-radius:30px; font-weight:700; font-size:1rem; border:none; cursor:pointer; font-family:'Hind',sans-serif; box-shadow:0 4px 16px rgba(0,0,0,0.15); transition:transform 0.15s; }
+  .btn-primary:hover { transform:translateY(-2px); }
+  .btn-secondary { background:transparent; color:white; padding:13px 28px; border-radius:30px; font-weight:600; font-size:1rem; border:2px solid rgba(255,255,255,0.7); cursor:pointer; font-family:'Hind',sans-serif; }
+  .btn-secondary:hover { background:rgba(255,255,255,0.15); }
+
+  .search-section { padding:0 5%; margin-top:-36px; position:relative; z-index:10; }
+  .search-card { background:white; border-radius:20px; box-shadow:var(--shadow-lg); padding:28px 32px; max-width:860px; }
+  .search-tabs { display:flex; gap:8px; margin-bottom:20px; }
+  .tab { padding:8px 20px; border-radius:20px; border:none; font-family:'Hind',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer; background:var(--cream); color:var(--brown); transition:all 0.2s; }
+  .tab.active { background:var(--saffron); color:white; }
+  .search-row { display:grid; grid-template-columns:1fr 1fr 160px 120px; gap:12px; align-items:end; }
+  .input-group label { display:block; font-size:0.78rem; font-weight:600; color:#888; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.4px; }
+  .input-group input { width:100%; padding:11px 14px; border:1.5px solid #e8ddd4; border-radius:10px; font-family:'Hind',sans-serif; font-size:0.95rem; color:var(--brown); background:var(--cream); outline:none; transition:border-color 0.2s; }
+  .input-group input:focus { border-color:var(--saffron); }
+  .btn-search { background:var(--saffron); color:white; padding:11px 0; border-radius:10px; border:none; font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; cursor:pointer; width:100%; transition:background 0.2s; }
+  .btn-search:hover { background:var(--saffron-light); }
+
+  .stats-bar { display:flex; background:white; border-radius:16px; box-shadow:var(--shadow); max-width:860px; margin:16px 5% 0; overflow:hidden; }
+  .stat { flex:1; padding:18px 20px; text-align:center; border-right:1px solid #f0e8e0; }
+  .stat:last-child { border-right:none; }
+  .stat-num { font-family:'Baloo 2',cursive; font-size:1.5rem; font-weight:800; color:var(--saffron); }
+  .stat-label { font-size:0.78rem; color:#888; }
+
+  .section { padding:52px 5%; }
+  .section-title { font-family:'Baloo 2',cursive; font-size:1.8rem; font-weight:800; color:var(--brown); margin-bottom:6px; }
+  .section-sub { color:#888; font-size:0.95rem; margin-bottom:28px; }
+
+  .trips-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+  .trip-card { background:white; border-radius:16px; box-shadow:var(--shadow); padding:20px; transition:transform 0.2s,box-shadow 0.2s; border:1.5px solid transparent; }
+  .trip-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:#ffe0c0; }
+  .trip-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+  .trip-route { font-family:'Baloo 2',cursive; font-size:1.1rem; font-weight:700; color:var(--brown); }
+  .trip-route .arrow { color:var(--saffron); margin:0 4px; }
+  .trip-fare { background:#e8f7ef; color:var(--green); font-weight:700; font-size:0.9rem; padding:4px 10px; border-radius:8px; }
+  .trip-info { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+  .trip-info-row { display:flex; align-items:center; gap:8px; font-size:0.88rem; color:#666; }
+  .trip-footer { display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f5ede6; padding-top:14px; }
+  .driver-info { display:flex; align-items:center; gap:8px; }
+  .avatar { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:white; }
+  .driver-name { font-size:0.85rem; font-weight:600; color:var(--brown); }
+  .seats-badge { background:var(--sky); color:#1a6fa8; font-size:0.8rem; font-weight:600; padding:4px 10px; border-radius:8px; }
+  .btn-book { background:var(--saffron); color:white; border:none; padding:8px 18px; border-radius:20px; font-family:'Hind',sans-serif; font-weight:600; font-size:0.88rem; cursor:pointer; }
+  .btn-book:hover { background:var(--saffron-light); }
+  .btn-whatsapp { background:#25D366; color:white; border:none; padding:6px 12px; border-radius:16px; font-family:'Hind',sans-serif; font-weight:600; font-size:0.8rem; cursor:pointer; }
+
+  .how-section { background:white; }
+  .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px; }
+  .step { text-align:center; padding:24px 16px; }
+  .step-icon { width:64px; height:64px; border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:0 auto 14px; }
+  .step h3 { font-family:'Baloo 2',cursive; font-size:1.05rem; font-weight:700; margin-bottom:6px; }
+  .step p { font-size:0.88rem; color:#777; line-height:1.5; }
+
+  .safety-section { background:linear-gradient(135deg,#1A7A4A,#25A865); }
+  .safety-section .section-title { color:white; }
+  .safety-section .section-sub { color:rgba(255,255,255,0.8); }
+  .safety-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
+  .safety-card { background:rgba(255,255,255,0.12); border-radius:14px; padding:20px; color:white; border:1px solid rgba(255,255,255,0.2); }
+  .safety-card:hover { background:rgba(255,255,255,0.2); }
+  .safety-icon { font-size:2rem; margin-bottom:10px; }
+  .safety-card h4 { font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; margin-bottom:6px; }
+  .safety-card p { font-size:0.83rem; opacity:0.85; line-height:1.5; }
+
+  .sos-banner { background:#fff3f0; border:2px solid #ff4444; border-radius:16px; padding:20px 24px; display:flex; align-items:center; gap:20px; max-width:860px; margin:24px 5% 0; }
+  .sos-btn { background:#ff4444; color:white; border:none; padding:14px 28px; border-radius:12px; font-family:'Baloo 2',cursive; font-size:1.1rem; font-weight:800; cursor:pointer; letter-spacing:1px; animation:pulse 2s infinite; white-space:nowrap; }
+  @keyframes pulse { 0%,100% { box-shadow:0 0 0 0 rgba(255,68,68,0.4); } 50% { box-shadow:0 0 0 10px rgba(255,68,68,0); } }
+  .sos-text h4 { font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; color:#cc0000; margin-bottom:4px; }
+  .sos-text p { font-size:0.85rem; color:#666; }
+
+  footer { background:var(--brown); color:rgba(255,255,255,0.8); padding:36px 5%; text-align:center; font-size:0.88rem; }
+  footer .footer-logo { font-family:'Baloo 2',cursive; font-size:1.4rem; font-weight:800; color:var(--saffron); margin-bottom:8px; }
+  footer .footer-logo span { color:#25A865; }
+
+  /* MODALS */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(61,31,0,0.5); z-index:999; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:white; border-radius:20px; padding:32px; max-width:480px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation:slideUp 0.3s ease; max-height:90vh; overflow-y:auto; }
+  @keyframes slideUp { from { transform:translateY(30px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+  .modal h2 { font-family:'Baloo 2',cursive; font-size:1.4rem; font-weight:800; color:var(--brown); margin-bottom:6px; }
+  .modal > p { color:#888; font-size:0.9rem; margin-bottom:16px; }
+  .modal-input { width:100%; padding:12px 14px; border:1.5px solid #e8ddd4; border-radius:10px; font-family:'Hind',sans-serif; font-size:0.95rem; color:var(--brown); background:var(--cream); margin-bottom:12px; outline:none; }
+  .modal-input:focus { border-color:var(--saffron); }
+  .modal-btn { width:100%; background:var(--saffron); color:white; padding:13px; border-radius:10px; border:none; font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; cursor:pointer; margin-bottom:10px; transition:background 0.2s; }
+  .modal-btn:hover { background:var(--saffron-light); }
+  .modal-btn.green { background:var(--green); }
+  .modal-btn.green:hover { background:var(--green-light); }
+  .modal-btn.whatsapp { background:#25D366; }
+  .modal-close { width:100%; background:var(--cream); color:var(--brown); padding:10px; border-radius:10px; border:none; font-family:'Hind',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer; }
+  .error-msg { color:#cc0000; font-size:0.85rem; margin-bottom:10px; display:none; }
+  .otp-step { display:none; }
+
+  /* Contacts list */
+  .contact-item { display:flex; justify-content:space-between; align-items:center; background:var(--cream); border-radius:10px; padding:12px 14px; margin-bottom:8px; }
+  .contact-item-info { flex:1; }
+  .contact-item-name { font-weight:700; font-size:0.95rem; color:var(--brown); }
+  .contact-item-phone { font-size:0.83rem; color:#888; }
+  .contact-item-relation { font-size:0.78rem; background:#e8f7ef; color:var(--green); padding:2px 8px; border-radius:8px; display:inline-block; margin-top:2px; }
+  .btn-delete { background:#ffe0e0; color:#cc0000; border:none; padding:6px 12px; border-radius:8px; font-size:0.8rem; font-weight:600; cursor:pointer; }
+
+  /* SOS result */
+  .sos-result { background:#fff3f0; border-radius:12px; padding:14px; margin-bottom:14px; }
+  .sos-result h4 { color:#cc0000; font-family:'Baloo 2',cursive; font-weight:700; margin-bottom:6px; }
+  .sos-contact-row { display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid #ffe0dc; font-size:0.88rem; }
+  .sos-contact-row:last-child { border-bottom:none; }
+  .sos-modal-btn { width:100%; background:#ff4444; color:white; padding:16px; border-radius:12px; border:none; font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:800; cursor:pointer; margin-bottom:10px; letter-spacing:1px; animation:pulse 2s infinite; }
+
+  #toast { display:none; position:fixed; bottom:32px; left:50%; transform:translateX(-50%); background:#1A7A4A; color:white; padding:14px 28px; border-radius:30px; font-family:'Baloo 2',cursive; font-weight:700; font-size:1rem; box-shadow:0 8px 32px rgba(0,0,0,0.2); z-index:9999; white-space:nowrap; }
+  #toast.error { background:#cc0000; }
+
+  .no-trips { text-align:center; padding:40px; color:#888; }
+  .divider { border:none; border-top:1px solid #f0e8e0; margin:14px 0; }
+
+  @media(max-width:600px) {
+    .search-row { grid-template-columns:1fr 1fr; }
+    .hero h1 { font-size:2rem; }
+    .stats-bar { flex-wrap:wrap; }
+    .stat { min-width:50%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Saath<span>Yatra</span></div>
+  <div class="nav-links">
+    <a onclick="scrollToSearch()">Find Trip</a>
+    <a onclick="requireLogin('modal-contacts')" style="color:var(--green);font-weight:600;">👪 Contacts</a>
+    <a onclick="openModal('modal-sos')" style="color:#cc0000;font-weight:700;">🆘 SOS</a>
+    <span id="nav-user-name" style="display:none;font-weight:700;color:var(--green);font-size:0.9rem;"></span>
+    <a id="nav-logout" style="display:none;" onclick="logout()">Logout</a>
+    <a class="btn-nav" id="nav-login-btn" onclick="openModal('modal-login')">Login / Sign Up</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🚗 Rural Carpooling India</div>
+    <h1>Travel Together,<br>Save Together</h1>
+    <p>Find co-travellers going your way. Split fares, reduce costs, and travel safely — even without internet.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollToSearch()">Find a Trip 🔍</button>
+      <button class="btn-secondary" onclick="requireLogin('modal-post')">Post Your Trip +</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-card" id="search-card">
+    <div class="search-tabs">
+      <button class="tab active">🔍 Find Trip</button>
+      <button class="tab" onclick="requireLogin('modal-post')">➕ Post Trip</button>
+    </div>
+    <div class="search-row">
+      <div class="input-group"><label>From</label><input type="text" id="from" placeholder="e.g. Rampur Village" /></div>
+      <div class="input-group"><label>To</label><input type="text" id="to" placeholder="e.g. Gulbarga Town" /></div>
+      <div class="input-group"><label>Date</label><input type="date" id="date" /></div>
+      <div><button class="btn-search" onclick="searchTrips()">🔍 Search</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">4,200+</div><div class="stat-label">Trips Done</div></div>
+  <div class="stat"><div class="stat-num">₹18L+</div><div class="stat-label">Fare Saved</div></div>
+  <div class="stat"><div class="stat-num">12,000+</div><div class="stat-label">Users</div></div>
+  <div class="stat"><div class="stat-num">340+</div><div class="stat-label">Villages</div></div>
+</div>
+
+<!-- SOS BANNER -->
+<div class="sos-banner">
+  <button class="sos-btn" onclick="openModal('modal-sos')">🆘 SOS</button>
+  <div class="sos-text">
+    <h4>Emergency Safety Button</h4>
+    <p>Detects your GPS location and sends WhatsApp alert to your emergency contacts — even without internet via SMS.</p>
+  </div>
+</div>
+
+<!-- TRIPS -->
+<div class="section">
+  <div class="section-title">Available Trips</div>
+  <div class="section-sub" id="trips-sub">Loading trips...</div>
+  <div class="trips-grid" id="trips-grid"><div class="no-trips">⏳ Loading...</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section how-section">
+  <div class="section-title">How SaathYatra Works</div>
+  <div class="section-sub">Simple steps to travel together</div>
+  <div class="steps">
+    <div class="step"><div class="step-icon" style="background:#fff3e6;">🔍</div><h3>Search a Trip</h3><p>Enter where you're going. We show co-travellers on the same route.</p></div>
+    <div class="step"><div class="step-icon" style="background:#e8f7ef;">🤝</div><h3>Match & Book</h3><p>Check verified profiles and book your seat instantly.</p></div>
+    <div class="step"><div class="step-icon" style="background:#e8f4fd;">💰</div><h3>Split the Fare</h3><p>Fare divided equally. Pay less, travel more comfortably.</p></div>
+    <div class="step"><div class="step-icon" style="background:#fce8e8;">🆘</div><h3>Travel Safely</h3><p>SOS + WhatsApp alerts keep your family informed always.</p></div>
+  </div>
+</div>
+
+<!-- SAFETY -->
+<div class="section safety-section">
+  <div class="section-title">Your Safety, Always</div>
+  <div class="section-sub">Features that work even without mobile data</div>
+  <div class="safety-cards">
+    <div class="safety-card"><div class="safety-icon">📡</div><h4>Offline SOS SMS</h4><p>Press SOS and an SMS with your GPS location is sent — no internet needed.</p></div>
+    <div class="safety-card"><div class="safety-icon">💬</div><h4>WhatsApp Alerts</h4><p>Instantly share your trip or SOS to family via WhatsApp with one tap.</p></div>
+    <div class="safety-card"><div class="safety-icon">👪</div><h4>Trusted Contacts</h4><p>Save up to 3 emergency contacts. They get your location instantly.</p></div>
+    <div class="safety-card"><div class="safety-icon">✅</div><h4>Verified Profiles</h4><p>All users verified via phone. Ratings ensure trusted travellers only.</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Saath<span>Yatra</span></div>
+  <p>Connecting rural India, one trip at a time 🇮🇳</p>
+  <p style="margin-top:8px;font-size:0.78rem;opacity:0.6;">© 2025 SaathYatra · Made for Bharat</p>
+</footer>
+
+<!-- ══════ MODALS ══════ -->
+
+<!-- LOGIN -->
+<div class="modal-overlay" id="modal-login" onclick="closeModalOutside(event,'modal-login')">
+  <div class="modal">
+    <h2>Welcome to SaathYatra 👋</h2>
+    <p>Enter your mobile number to get started</p>
+    <div id="error-login" class="error-msg"></div>
+    <div id="login-step1">
+      <input class="modal-input" type="tel" id="login-phone" placeholder="📱 10-digit Mobile Number" maxlength="10" />
+      <input class="modal-input" type="text" id="login-name" placeholder="👤 Full Name (new users only)" />
+      <button class="modal-btn" onclick="sendOTP()">Send OTP →</button>
+      <button class="modal-close" onclick="closeModal('modal-login')">Cancel</button>
+    </div>
+    <div id="login-step2" class="otp-step">
+      <p id="otp-sent-msg" style="color:var(--green);font-weight:600;margin-bottom:12px;"></p>
+      <input class="modal-input" type="text" id="login-otp" placeholder="🔢 Enter 6-digit OTP" maxlength="6" />
+      <button class="modal-btn" onclick="verifyOTP()">Verify & Login →</button>
+      <button class="modal-close" onclick="backToStep1()">← Change Number</button>
+    </div>
+  </div>
+</div>
+
+<!-- POST TRIP -->
+<div class="modal-overlay" id="modal-post" onclick="closeModalOutside(event,'modal-post')">
+  <div class="modal">
+    <h2>Post Your Trip 🚗</h2>
+    <p>Share your route and let others join you</p>
+    <div id="error-post" class="error-msg"></div>
+    <input class="modal-input" type="text" id="post-from" placeholder="📍 From (Village/Town)" />
+    <input class="modal-input" type="text" id="post-to" placeholder="📍 To (Destination)" />
+    <input class="modal-input" type="date" id="post-date" />
+    <input class="modal-input" type="time" id="post-time" />
+    <input class="modal-input" type="number" id="post-fare" placeholder="💰 Fare per seat (₹)" />
+    <input class="modal-input" type="number" id="post-seats" placeholder="🪑 Seats available" />
+    <input class="modal-input" type="text" id="post-vehicle" placeholder="🚗 Vehicle (e.g. Maruti Alto)" />
+    <input class="modal-input" type="text" id="post-vehicle-no" placeholder="🔢 Vehicle Number" />
+    <button class="modal-btn" onclick="postTrip()">Post Trip →</button>
+    <button class="modal-close" onclick="closeModal('modal-post')">Cancel</button>
+  </div>
+</div>
+
+<!-- BOOK -->
+<div class="modal-overlay" id="modal-book" onclick="closeModalOutside(event,'modal-book')">
+  <div class="modal">
+    <h2>Confirm Booking ✅</h2>
+    <div id="book-details" style="background:var(--cream);border-radius:12px;padding:16px;margin-bottom:16px;font-size:0.9rem;"></div>
+    <div id="error-book" class="error-msg"></div>
+    <button class="modal-btn" onclick="confirmBooking()">Confirm & Book →</button>
+    <button id="btn-share-whatsapp" class="modal-btn whatsapp" onclick="shareOnWhatsApp()">📲 Share on WhatsApp</button>
+    <button class="modal-close" onclick="closeModal('modal-book')">Cancel</button>
+  </div>
+</div>
+
+<!-- EMERGENCY CONTACTS -->
+<div class="modal-overlay" id="modal-contacts" onclick="closeModalOutside(event,'modal-contacts')">
+  <div class="modal">
+    <h2>👪 Emergency Contacts</h2>
+    <p>Add up to 3 contacts who will be alerted in case of SOS</p>
+    <div id="contacts-list"></div>
+    <hr class="divider">
+    <div id="error-contacts" class="error-msg"></div>
+    <input class="modal-input" type="text" id="c-name" placeholder="👤 Contact Name" />
+    <input class="modal-input" type="tel" id="c-phone" placeholder="📱 10-digit Mobile Number" maxlength="10" />
+    <input class="modal-input" type="text" id="c-relation" placeholder="🤝 Relation (e.g. Mother, Brother)" />
+    <button class="modal-btn green" onclick="addContact()">+ Add Contact</button>
+    <button class="modal-close" onclick="closeModal('modal-contacts')">Done</button>
+  </div>
+</div>
+
+<!-- SOS -->
+<div class="modal-overlay" id="modal-sos" onclick="closeModalOutside(event,'modal-sos')">
+  <div class="modal">
+    <h2 style="color:#cc0000;">🆘 Emergency SOS</h2>
+    <p>We'll detect your GPS location and alert your emergency contacts via WhatsApp and SMS.</p>
+    <div id="sos-contacts-preview" style="background:#fff3f0;border-radius:12px;padding:14px;margin-bottom:14px;font-size:0.85rem;color:#666;">
+      <strong style="color:#cc0000;">Loading contacts...</strong>
+    </div>
+    <div id="sos-result" style="display:none;"></div>
+    <button class="sos-modal-btn" id="sos-send-btn" onclick="sendSOS()">🆘 SEND SOS NOW</button>
+    <button class="modal-close" onclick="closeModal('modal-sos');resetSOS()">Cancel — I'm Safe</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+const API = 'http://localhost:5000/api';
+let currentUser = JSON.parse(localStorage.getItem('saathyatra_user') || 'null');
+let selectedTripId = null;
+
+// ── Init ──
+window.onload = () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('date').value = today;
+  document.getElementById('post-date').value = today;
+  updateNav();
+  loadTrips();
+};
+
+function updateNav() {
+  const loginBtn = document.getElementById('nav-login-btn');
+  const userName = document.getElementById('nav-user-name');
+  const logoutBtn = document.getElementById('nav-logout');
+  if (currentUser) {
+    loginBtn.style.display = 'none';
+    userName.style.display = 'inline';
+    userName.textContent = '👤 ' + currentUser.name;
+    logoutBtn.style.display = 'inline';
+  } else {
+    loginBtn.style.display = 'inline';
+    userName.style.display = 'none';
+    logoutBtn.style.display = 'none';
+  }
+}
+
+function logout() {
+  localStorage.removeItem('saathyatra_user');
+  currentUser = null;
+  updateNav();
+  showToast('👋 Logged out');
+}
+
+// ── Modals ──
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeModalOutside(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+function requireLogin(modalId) {
+  if (!currentUser) { openModal('modal-login'); return false; }
+  if (modalId === 'modal-contacts') loadContacts();
+  if (modalId) openModal(modalId);
+  return true;
+}
+
+// ── Toast ──
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = isError ? 'error' : '';
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3500);
+}
+function showError(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; }
+function hideError(id) { document.getElementById(id).style.display = 'none'; }
+
+// ── AUTH ──
+async function sendOTP() {
+  const phone = document.getElementById('login-phone').value.trim();
+  hideError('error-login');
+  if (!phone || phone.length !== 10 || isNaN(phone)) { showError('error-login','⚠️ Enter valid 10-digit number'); return; }
+  try {
+    const res = await fetch(`${API}/send-otp`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({phone}) });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('login-step1').style.display = 'none';
+      document.getElementById('login-step2').style.display = 'block';
+      document.getElementById('otp-sent-msg').textContent = `✅ OTP sent to ${phone}` + (data.dev_otp ? ` (Dev: ${data.dev_otp})` : '');
+    } else { showError('error-login', data.message); }
+  } catch(e) { showError('error-login','❌ Cannot connect to server. Is backend running?'); }
+}
+
+async function verifyOTP() {
+  const phone = document.getElementById('login-phone').value.trim();
+  const otp   = document.getElementById('login-otp').value.trim();
+  const name  = document.getElementById('login-name').value.trim();
+  hideError('error-login');
+  try {
+    const res = await fetch(`${API}/verify-otp`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({phone,otp,name}) });
+    const data = await res.json();
+    if (data.success) {
+      currentUser = data.user;
+      localStorage.setItem('saathyatra_user', JSON.stringify(currentUser));
+      closeModal('modal-login');
+      updateNav();
+      showToast(data.is_new_user ? `🎉 Welcome, ${data.user.name}!` : `👋 Welcome back, ${data.user.name}!`);
+      backToStep1();
+    } else { showError('error-login', data.message); }
+  } catch(e) { showError('error-login','❌ Cannot connect to server'); }
+}
+
+function backToStep1() {
+  document.getElementById('login-step1').style.display = 'block';
+  document.getElementById('login-step2').style.display = 'none';
+  document.getElementById('login-otp').value = '';
+  hideError('error-login');
+}
+
+// ── TRIPS ──
+async function loadTrips() {
+  try {
+    const res = await fetch(`${API}/trips/search`);
+    const data = await res.json();
+    renderTrips(data.trips, 'All available trips');
+  } catch(e) {
+    document.getElementById('trips-grid').innerHTML = '<div class="no-trips">⚠️ Could not load trips. Make sure backend is running.</div>';
+    document.getElementById('trips-sub').textContent = 'Backend not connected';
+  }
+}
+
+async function searchTrips() {
+  const from = document.getElementById('from').value.trim();
+  const to   = document.getElementById('to').value.trim();
+  const date = document.getElementById('date').value;
+  document.getElementById('trips-grid').innerHTML = '<div class="no-trips">⏳ Searching...</div>';
+  try {
+    const res = await fetch(`${API}/trips/search?${new URLSearchParams({from,to,date})}`);
+    const data = await res.json();
+    renderTrips(data.trips, `${data.trips.length} trip(s) found`);
+    document.getElementById('trips-grid').scrollIntoView({behavior:'smooth'});
+  } catch(e) { showToast('❌ Search failed', true); }
+}
+
+const avatarColors = ['#FF6B00','#1A7A4A','#7c3aed','#0369a1','#b45309'];
+
+function renderTrips(trips, subtitle) {
+  document.getElementById('trips-sub').textContent = subtitle;
+  const grid = document.getElementById('trips-grid');
+  if (!trips || trips.length === 0) {
+    grid.innerHTML = '<div class="no-trips">😔 No trips found. <a href="#" onclick="requireLogin(\'modal-post\')" style="color:var(--saffron)">Post one!</a></div>';
+    return;
+  }
+  grid.innerHTML = trips.map(t => {
+    const color = avatarColors[t.id % avatarColors.length];
+    const initial = (t.driver_name||'U')[0].toUpperCase();
+    return `
+      <div class="trip-card">
+        <div class="trip-header">
+          <div class="trip-route">${t.from_place} <span class="arrow">→</span> ${t.to_place}</div>
+          <div class="trip-fare">₹${t.fare}/seat</div>
+        </div>
+        <div class="trip-info">
+          <div class="trip-info-row"><span>🕐</span> ${t.date} at ${t.time}</div>
+          ${t.vehicle ? `<div class="trip-info-row"><span>🚗</span> ${t.vehicle} ${t.vehicle_number ? '· '+t.vehicle_number : ''}</div>` : ''}
+        </div>
+        <div class="trip-footer">
+          <div class="driver-info">
+            <div class="avatar" style="background:${color}">${initial}</div>
+            <div><div class="driver-name">${t.driver_name}</div><div style="font-size:0.78rem;color:#f59e0b;">⭐ Verified</div></div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+            <div class="seats-badge">${t.seats} seat${t.seats!==1?'s':''}</div>
+            <button class="btn-whatsapp" onclick="shareTrip(${t.id})">📲</button>
+            <button class="btn-book" onclick="openBookModal(${t.id},'${t.from_place}','${t.to_place}','${t.driver_name}',${t.fare},${t.seats})">Book</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openBookModal(id, from, to, driver, fare, seats) {
+  if (!requireLogin(null)) return;
+  selectedTripId = id;
+  document.getElementById('book-details').innerHTML = `
+    <div style="font-family:'Baloo 2',cursive;font-size:1rem;font-weight:700;margin-bottom:10px;">${from} → ${to}</div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Driver</span><strong>${driver}</strong></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Fare</span><strong>₹${fare}/seat</strong></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Available seats</span><strong>${seats}</strong></div>
+    <div style="border-top:1px solid #e0d4cc;padding-top:8px;display:flex;justify-content:space-between;">
+      <span style="font-weight:700;">You pay</span><strong style="color:var(--green);">₹${fare}</strong>
+    </div>`;
+  hideError('error-book');
+  openModal('modal-book');
+}
+
+async function confirmBooking() {
+  if (!currentUser) { closeModal('modal-book'); openModal('modal-login'); return; }
+  hideError('error-book');
+  try {
+    const res = await fetch(`${API}/bookings`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({trip_id:selectedTripId, user_id:currentUser.id}) });
+    const data = await res.json();
+    if (data.success) {
+      closeModal('modal-book');
+      showToast('🎉 Seat booked! You will receive trip details.');
+      loadTrips();
+    } else { showError('error-book', data.message); }
+  } catch(e) { showError('error-book','❌ Booking failed. Try again.'); }
+}
+
+async function shareTrip(tripId) {
+  try {
+    const res = await fetch(`${API}/trips/${tripId}/share`);
+    const data = await res.json();
+    if (data.success) {
+      window.open(data.whatsapp_url, '_blank');
+    }
+  } catch(e) { showToast('❌ Could not generate share link', true); }
+}
+
+async function shareOnWhatsApp() {
+  if (selectedTripId) await shareTrip(selectedTripId);
+}
+
+async function postTrip() {
+  if (!currentUser) { closeModal('modal-post'); openModal('modal-login'); return; }
+  hideError('error-post');
+  const tripData = {
+    user_id: currentUser.id,
+    from_place: document.getElementById('post-from').value.trim(),
+    to_place: document.getElementById('post-to').value.trim(),
+    date: document.getElementById('post-date').value,
+    time: document.getElementById('post-time').value,
+    fare: document.getElementById('post-fare').value,
+    seats: document.getElementById('post-seats').value,
+    vehicle: document.getElementById('post-vehicle').value.trim(),
+    vehicle_number: document.getElementById('post-vehicle-no').value.trim()
+  };
+  if (!tripData.from_place || !tripData.to_place || !tripData.date || !tripData.fare || !tripData.seats) {
+    showError('error-post','⚠️ Please fill all required fields'); return;
+  }
+  try {
+    const res = await fetch(`${API}/trips`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(tripData) });
+    const data = await res.json();
+    if (data.success) { closeModal('modal-post'); showToast('🚗 Trip posted!'); loadTrips(); }
+    else { showError('error-post', data.message); }
+  } catch(e) { showError('error-post','❌ Could not post trip. Is backend running?'); }
+}
+
+// ── EMERGENCY CONTACTS ──
+async function loadContacts() {
+  if (!currentUser) return;
+  try {
+    const res = await fetch(`${API}/emergency-contacts/${currentUser.id}`);
+    const data = await res.json();
+    renderContacts(data.contacts);
+  } catch(e) {}
+}
+
+function renderContacts(contacts) {
+  const list = document.getElementById('contacts-list');
+  if (!contacts || contacts.length === 0) {
+    list.innerHTML = '<div style="color:#888;font-size:0.88rem;text-align:center;padding:12px;">No contacts added yet.</div>';
+    return;
+  }
+  list.innerHTML = contacts.map(c => `
+    <div class="contact-item">
+      <div class="contact-item-info">
+        <div class="contact-item-name">👤 ${c.name}</div>
+        <div class="contact-item-phone">📱 ${c.phone}</div>
+        ${c.relation ? `<span class="contact-item-relation">${c.relation}</span>` : ''}
+      </div>
+      <button class="btn-delete" onclick="deleteContact(${c.id})">✕ Remove</button>
+    </div>`).join('');
+}
+
+async function addContact() {
+  if (!currentUser) return;
+  hideError('error-contacts');
+  const name     = document.getElementById('c-name').value.trim();
+  const phone    = document.getElementById('c-phone').value.trim();
+  const relation = document.getElementById('c-relation').value.trim();
+  if (!name || !phone) { showError('error-contacts','⚠️ Name and phone required'); return; }
+  try {
+    const res = await fetch(`${API}/emergency-contacts`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({user_id:currentUser.id, name, phone, relation}) });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`✅ ${name} added!`);
+      document.getElementById('c-name').value = '';
+      document.getElementById('c-phone').value = '';
+      document.getElementById('c-relation').value = '';
+      loadContacts();
+    } else { showError('error-contacts', data.message); }
+  } catch(e) { showError('error-contacts','❌ Failed to add contact'); }
+}
+
+async function deleteContact(id) {
+  try {
+    await fetch(`${API}/emergency-contacts/${id}`, {method:'DELETE'});
+    showToast('Contact removed');
+    loadContacts();
+  } catch(e) {}
+}
+
+// ── SOS ──
+async function openSOSModal() {
+  openModal('modal-sos');
+  // Pre-load contacts preview
+  if (currentUser) {
+    try {
+      const res = await fetch(`${API}/emergency-contacts/${currentUser.id}`);
+      const data = await res.json();
+      const preview = document.getElementById('sos-contacts-preview');
+      if (data.contacts && data.contacts.length > 0) {
+        preview.innerHTML = `<strong style="color:#cc0000;">Will alert:</strong><br>` +
+          data.contacts.map(c => `📱 ${c.name}: +91 ${c.phone}`).join('<br>');
+      } else {
+        preview.innerHTML = `<strong style="color:#cc0000;">⚠️ No emergency contacts set!</strong><br>
+          <a href="#" onclick="closeModal('modal-sos');requireLogin('modal-contacts')" style="color:var(--saffron);">Add contacts now →</a>`;
+      }
+    } catch(e) {}
+  } else {
+    document.getElementById('sos-contacts-preview').innerHTML =
+      '<strong style="color:#888;">Login to save emergency contacts</strong>';
+  }
+}
+
+async function sendSOS() {
+  const btn = document.getElementById('sos-send-btn');
+  btn.textContent = '📍 Detecting location...';
+  btn.disabled = true;
+
+  // Get GPS location
+  let latitude = null, longitude = null, locationName = 'Unknown location';
+
+  try {
+    const pos = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject, {timeout:8000})
+    );
+    latitude = pos.coords.latitude;
+    longitude = pos.coords.longitude;
+    locationName = `GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+  } catch(e) {
+    locationName = 'Location unavailable (GPS off)';
+  }
+
+  btn.textContent = '📡 Sending alert...';
+
+  try {
+    const res = await fetch(`${API}/sos`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        user_id: currentUser ? currentUser.id : null,
+        latitude, longitude, location_name: locationName
+      })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // Show result
+      const resultDiv = document.getElementById('sos-result');
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <div class="sos-result">
+          <h4>✅ SOS Alert Sent!</h4>
+          <p style="font-size:0.85rem;color:#666;margin-bottom:8px;">📍 ${locationName}</p>
+          ${data.contacts.length > 0
+            ? data.contacts.map(c => `<div class="sos-contact-row">📱 ${c.name} (${c.relation||'Contact'}): ${c.phone}</div>`).join('')
+            : '<div style="color:#888;font-size:0.85rem;">No contacts saved. <a href="#" onclick="closeModal(\'modal-sos\');requireLogin(\'modal-contacts\')" style="color:var(--saffron);">Add now →</a></div>'
+          }
+        </div>`;
+
+      // Open WhatsApp with SOS message
+      if (data.whatsapp_sos_url) {
+        setTimeout(() => window.open(data.whatsapp_sos_url, '_blank'), 500);
+      }
+
+      // Also open maps link
+      if (data.maps_link) {
+        btn.textContent = '🗺️ View on Maps';
+        btn.onclick = () => window.open(data.maps_link, '_blank');
+        btn.disabled = false;
+        btn.style.animation = 'none';
+        btn.style.background = '#1a6fa8';
+      }
+    }
+  } catch(e) {
+    // Even if backend is down, open WhatsApp manually
+    const msg = `🆘 EMERGENCY! ${currentUser ? currentUser.name : 'Someone'} needs help! Location: ${locationName}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+    showToast('📲 WhatsApp opened for manual SOS', true);
+    closeModal('modal-sos');
+  }
+}
+
+function resetSOS() {
+  const btn = document.getElementById('sos-send-btn');
+  btn.textContent = '🆘 SEND SOS NOW';
+  btn.disabled = false;
+  btn.onclick = sendSOS;
+  btn.style.animation = 'pulse 2s infinite';
+  btn.style.background = '#ff4444';
+  document.getElementById('sos-result').style.display = 'none';
+}
+
+// Override openModal for SOS to pre-load contacts
+const _openModal = openModal;
+function openModal(id) {
+  _openModal(id);
+  if (id === 'modal-sos') openSOSModal();
+}
+
+function scrollToSearch() { document.getElementById('search-card').scrollIntoView({behavior:'smooth'}); }
+</script>
+</body>
+</html>
