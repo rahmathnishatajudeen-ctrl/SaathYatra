@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SaathYatra · Ride to DSU together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--deep:#0f2a3d;--ink:#0f2a3d;--green:#0b7a5a;--saffron:#f26b0f;--mist:#eef4f1;--line:#cfdcd6;--sos:#d6342b;--muted:#566b78;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1a24;--ink:#e6eef3;--mist:#12252f;--line:#2a4250;--muted:#9bb2c0;--green:#2fc08f;--sos:#ff6b60;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1a24;--ink:#e6eef3;--mist:#12252f;--line:#2a4250;--muted:#9bb2c0;--green:#2fc08f;--sos:#ff6b60;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.5 Barlow,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+h1,h2,h3,.cond{font-family:'Barlow Condensed',Impact,sans-serif;font-weight:700;line-height:1.05}
+a{color:inherit}button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+header .wrap{display:flex;align-items:center;gap:22px;height:64px}
+.logo{font-size:1.7rem;text-decoration:none;margin-right:auto}.logo b:first-child{color:var(--saffron)}.logo b:last-child{color:var(--green)}
+nav{display:flex;align-items:center;gap:20px;font-weight:500}
+nav a,nav button.lnk{background:none;border:0;text-decoration:none;color:var(--ink);padding:6px 0}
+.btn{border:2px solid var(--deep);background:var(--deep);color:#fff;border-radius:6px;padding:10px 20px;font-weight:600}
+.btn.sf{background:var(--saffron);border-color:var(--saffron)}.btn.ghost{background:var(--bg);color:var(--ink)}
+.btn.sm{padding:6px 14px}
+.sosb{border:2px solid var(--sos);color:var(--sos);background:var(--bg);border-radius:6px;padding:6px 14px;font-weight:700}
+.hero{background:var(--mist);padding:56px 0 44px}
+.hero h1{font-size:clamp(2.6rem,7vw,4.8rem);max-width:13ch}
+.hero p.sub{max-width:52ch;margin:16px 0 8px;font-size:1.1rem;color:var(--muted)}
+#stats{font-weight:600;color:var(--green);min-height:1.5em}
+.route{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:26px 24px 22px;margin-top:26px}
+.route h2{font-size:1.4rem;margin-bottom:2px}.route .hint{color:var(--muted);font-size:.92rem;margin-bottom:22px}
+.line{display:flex;position:relative}
+.line::before{content:"";position:absolute;left:4%;right:4%;top:11px;height:6px;background:var(--green);border-radius:3px}
+.stop{flex:1;background:none;border:0;position:relative;text-align:center;padding:0 2px;color:var(--ink);font-size:.86rem;font-weight:500}
+.stop i{display:block;width:22px;height:22px;margin:0 auto 8px;border-radius:50%;background:var(--bg);border:5px solid var(--green)}
+.stop.big{font-weight:700;font-size:.95rem}
+.stop.from i{background:var(--saffron);border-color:var(--saffron)}
+.stop.to i{background:var(--ink);border-color:var(--ink)}
+.stop.from,.stop.to{font-weight:700}
+.stop:hover i{transform:scale(1.2)}
+.find{display:grid;grid-template-columns:1fr auto 1fr 170px auto;gap:10px;align-items:end;margin-top:26px}
+label{display:block;font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:4px}
+input,select{width:100%;font:inherit;padding:10px 12px;border:1.5px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.swap{height:44px;width:44px;border:1.5px solid var(--line);background:var(--bg);border-radius:6px;font-size:1.2rem}
+section{padding:52px 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.head h2{font-size:2.3rem}.head p{color:var(--muted)}
+.board{border-top:3px solid var(--ink)}
+.row{display:grid;grid-template-columns:110px 1fr 120px auto;gap:18px;align-items:center;padding:16px 4px;border-bottom:1px solid var(--line)}
+.time{font-size:2.3rem;font-family:'Barlow Condensed';font-weight:700}.time small{display:block;font:500 .8rem Barlow;color:var(--muted)}
+.rt{font-size:1.35rem}.rt span{color:var(--saffron)}
+.meta{color:var(--muted);font-size:.9rem}
+.tag{display:inline-block;background:var(--mist);color:var(--green);font-weight:600;font-size:.78rem;padding:2px 8px;border-radius:4px;margin-left:8px;font-family:Barlow}
+.fare{font-size:1.7rem}.fare small{display:block;font:500 .8rem Barlow;color:var(--muted)}
+.acts{display:flex;gap:8px}
+.empty{padding:36px 4px;color:var(--muted)}
+#safety{background:var(--deep);color:#fff}
+#safety .head p{color:#b9cbd6}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+.three div{border-left:4px solid var(--saffron);padding-left:16px}
+.three h3{font-size:1.4rem;margin-bottom:6px}.three p{color:#c9d8e0}
+footer{padding:26px 0;color:var(--muted);font-size:.9rem}
+.ov{position:fixed;inset:0;background:rgba(15,42,61,.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
+.ov.open{display:flex}
+.modal{background:var(--bg);border-radius:10px;width:100%;max-width:420px;max-height:92vh;overflow:auto;padding:24px}
+.modal h3{font-size:1.7rem;margin-bottom:14px}.modal input{margin-bottom:10px}
+.modal .btn{width:100%;margin-top:4px}.modal .x{float:right;background:none;border:0;font-size:1.4rem}
+.err{display:none;color:var(--sos);font-weight:600;margin-bottom:10px;font-size:.92rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ctc{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:6px;padding:8px 12px;margin-bottom:8px}
+.sosbig{background:var(--sos);border-color:var(--sos);font-size:1.2rem}
+.box{background:var(--mist);border-radius:6px;padding:12px;margin-bottom:12px;font-size:.92rem}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--deep);color:#fff;padding:12px 20px;border-radius:6px;display:none;z-index:30;font-weight:600}
+#toast.bad{background:var(--sos)}
+@media(max-width:820px){
+ .find{grid-template-columns:1fr 1fr}.swap{display:none}.find .btn{grid-column:1/-1}
+ .line{flex-direction:column;gap:10px;padding-left:4px}.line::before{left:14px;right:auto;top:8px;bottom:8px;width:6px;height:auto}
+ .stop{display:flex;align-items:center;gap:12px;text-align:left;font-size:1rem}.stop i{margin:0}
+ .row{grid-template-columns:80px 1fr;gap:6px 14px}.row .fare,.row .acts{grid-column:2}
+ .three{grid-template-columns:1fr}nav a.hide{display:none}
+}
+@media(prefers-reduced-motion:no-preference){.stop i{transition:transform .15s}}
+
+.opt{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.opt.on{border-color:var(--saffron);background:var(--mist)}
+.opt b{font-size:1.1rem}.opt em{display:block;font-style:normal;font-size:.82rem;color:var(--muted)}
+.opt .p{font:700 1.5rem 'Barlow Condensed',sans-serif}
+.steps{display:flex;gap:4px;margin:4px 0 12px}.steps i{flex:1;height:6px;border-radius:3px;background:var(--line)}.steps i.d{background:var(--green)}
+.otp{font:700 2.2rem 'Barlow Condensed',sans-serif;letter-spacing:.3em;color:var(--saffron)}
+.danger{color:var(--sos)!important;border-color:var(--sos)!important}
+@media(max-width:820px){nav .hide{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo cond" href="#"><b>Saath</b><b>Yatra</b></a>
+  <nav>
+    <a class="hide" href="#rides">Rides</a><a class="hide" href="#safety">Safety</a>
+    <button class="lnk hide" onclick="openCab()">Book a cab</button><button class="lnk" onclick="openMy()">My trips</button>
+    <button class="lnk" onclick="need('modal-contacts')">Contacts</button>
+    <button class="sosb" onclick="openM('modal-sos')">SOS</button>
+    <span id="who" style="display:none;font-weight:600"></span>
+    <button class="btn sm" id="loginBtn" onclick="openM('modal-login')">Log in</button>
+    <button class="lnk" id="outBtn" style="display:none" onclick="logout()">Log out</button>
+  </nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <h1>Ride to DSU with someone already going.</h1>
+  <p class="sub">DSU students and staff on the Kanakapura Road corridor share cars, split the fare and keep family in the loop.</p>
+  <div id="stats"></div>
+  <div class="route">
+    <h2>Pick your stops on Kanakapura Road</h2>
+    <p class="hint">Tap where you start, then where you get off. Rides passing through your stops will show up.</p>
+    <div class="line" id="line"></div>
+    <div class="find">
+      <div><label for="from">From</label><input id="from" list="places" placeholder="e.g. Banashankari"></div>
+      <button class="swap" onclick="swap()" aria-label="Swap from and to">⇄</button>
+      <div><label for="to">To</label><input id="to" list="places" placeholder="e.g. DSU Main Campus"></div>
+      <div><label for="date">Date</label><input type="date" id="date"></div>
+      <button class="btn sf" onclick="search()">Find rides</button>
+    </div>
+    <datalist id="places"></datalist>
+    <p class="hint" style="margin:16px 0 0">No ride at your time? <a href="#" onclick="openCab();return false" style="color:var(--saffron);font-weight:600">Book a cab instead →</a></p>
+  </div>
+</div></div>
+
+<section id="rides"><div class="wrap">
+  <div class="head"><div><h2>Rides on the corridor</h2><p id="sub">Loading rides…</p></div>
+  <div class="acts"><button class="btn sf" onclick="openCab()">Book a cab</button><button class="btn ghost" onclick="need('modal-post')">Offer a ride</button></div></div>
+  <div class="board" id="board"></div>
+</div></section>
+
+<section id="safety"><div class="wrap">
+  <div class="head"><div><h2>Safety you can use today</h2><p>Built for the ride home after a late lab.</p></div></div>
+  <div class="three">
+    <div><h3>SOS with your location</h3><p>One tap captures your GPS position, logs the alert and opens WhatsApp with a map link for your contacts.</p></div>
+    <div><h3>Three trusted contacts</h3><p>Save up to three people. They are the ones your SOS message is written for.</p></div>
+    <div><h3>Share before you leave</h3><p>Send any ride’s route, time and driver to family on WhatsApp in one tap.</p></div>
+  </div>
+</div></section>
+<footer><div class="wrap">SaathYatra · Built at ClaudeX: AI Build Lab, Dayananda Sagar University</div></footer>
+
+<div class="ov" id="modal-login" onclick="outside(event,this)"><div class="modal">
+  <button class="x" onclick="closeM('modal-login')" aria-label="Close">×</button><h3>Log in or sign up</h3>
+  <div class="err" id="err-login"></div>
+  <div id="l1"><input id="l-phone" type="tel" maxlength="10" placeholder="10-digit mobile number"><input id="l-name" placeholder="Your name (new users only)"><button class="btn sf" onclick="sendOTP()">Get OTP</button></div>
+  <div id="l2" style="display:none"><p class="box" id="otpmsg"></p><input id="l-otp" maxlength="6" placeholder="6-digit OTP"><button class="btn sf" onclick="verifyOTP()">Verify and continue</button></div>
+</div></div>
+
+<div class="ov" id="modal-post" onclick="outside(event,this)"><div class="modal">
+  <button class="x" onclick="closeM('modal-post')" aria-label="Close">×</button><h3>Offer a ride</h3>
+  <div class="err" id="err-post"></div>
+  <input id="p-from" list="places" placeholder="From"><input id="p-to" list="places" placeholder="To">
+  <div class="two"><input type="date" id="p-date"><input type="time" id="p-time"></div>
+  <div class="two"><input type="number" id="p-fare" placeholder="Fare per seat (₹)"><input type="number" id="p-seats" placeholder="Seats free"></div>
+  <div class="two"><input id="p-veh" placeholder="Vehicle"><input id="p-vno" placeholder="Vehicle number"></div>
+  <button class="btn sf" onclick="postTrip()">Post ride</button>
+</div></div>
+
+<div class="ov" id="modal-book" onclick="outside(event,this)"><div class="modal">
+  <button class="x" onclick="closeM('modal-book')" aria-label="Close">×</button><h3>Confirm your seat</h3>
+  <div class="box" id="bk"></div><div class="err" id="err-book"></div>
+  <button class="btn sf" onclick="book()">Book seat</button>
+  <button class="btn ghost" onclick="shareWA()">Share on WhatsApp</button>
+</div></div>
+
+<div class="ov" id="modal-contacts" onclick="outside(event,this)"><div class="modal">
+  <button class="x" onclick="closeM('modal-contacts')" aria-label="Close">×</button><h3>Emergency contacts</h3>
+  <div id="clist"></div><div class="err" id="err-c"></div>
+  <input id="c-name" placeholder="Name"><input id="c-phone" type="tel" maxlength="10" placeholder="10-digit mobile number"><input id="c-rel" placeholder="Relation (e.g. Mother)">
+  <button class="btn sf" onclick="addContact()">Save contact</button>
+</div></div>
+
+<div class="ov" id="modal-sos" onclick="outside(event,this)"><div class="modal">
+  <button class="x" onclick="closeM('modal-sos')" aria-label="Close">×</button><h3>Send an SOS</h3>
+  <div class="box" id="sosprev"></div><div id="sosres"></div>
+  <button class="btn sosbig" id="sosBtn" onclick="sendSOS()">Send SOS now</button>
+</div></div>
+<div class="ov" id="modal-cab" onclick="outside(event,this)"><div class="modal">
+  <button class="x" onclick="closeM('modal-cab')" aria-label="Close">×</button><h3>Book a cab</h3>
+  <div class="err" id="err-cab"></div>
+  <input id="c-from" list="places" placeholder="Pickup"><input id="c-to" list="places" placeholder="Drop">
+  <div class="two"><input type="date" id="c-date"><input type="time" id="c-time"></div>
+  <button class="btn ghost" onclick="getFares()">See fares</button>
+  <div id="fares" style="margin-top:14px"></div>
+</div></div>
+
+<div class="ov" id="modal-track" onclick="outside(event,this)"><div class="modal">
+  <button class="x" onclick="closeM('modal-track')" aria-label="Close">×</button><h3 id="tk-h">Finding a driver…</h3>
+  <div class="steps" id="tk-steps"></div>
+  <div class="box" id="tk-body"></div>
+  <div class="two"><button class="btn ghost" id="tk-share" onclick="shareCab()">Share trip</button><button class="btn ghost" id="tk-skip" onclick="step()">Skip ahead ▸</button></div>
+  <button class="btn ghost danger" id="tk-cancel" onclick="cancelCab()">Cancel cab</button>
+</div></div>
+
+<div class="ov" id="modal-my" onclick="outside(event,this)"><div class="modal">
+  <button class="x" onclick="closeM('modal-my')" aria-label="Close">×</button><h3>My trips</h3>
+  <div id="mylist"></div>
+</div></div>
+<div id="toast"></div>
+
+<script>
+const STOPS=[['Banashankari',1],['Yelachenahalli',0],['Konanakunte Cross',1],['Vajarahalli',0],['Thalaghattapura',0],['Silk Institute',1],['DSU Main Campus',1]];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+let user=(()=>{try{return JSON.parse(LS.get('saathyatra_user')||'null')}catch(e){return null}})(), TRIPS={}, picked=null;
+
+function toast(m,bad){const t=$('toast');t.textContent=m;t.className=bad?'bad':'';t.style.display='block';setTimeout(()=>t.style.display='none',3200)}
+function openM(id){$(id).classList.add('open');if(id==='modal-sos')sosPreview()}
+function closeM(id){$(id).classList.remove('open')}
+function outside(e,el){if(e.target===el)el.classList.remove('open')}
+function err(id,m){const e=$(id);e.textContent=m;e.style.display=m?'block':'none'}
+function need(id){if(!user){openM('modal-login');return}if(id==='modal-contacts')loadContacts();openM(id)}
+/* ---- Built-in backend: everything is stored in this browser (localStorage) ---- */
+const KEY='saathyatra_db',AL=[['banashankari'],['yelachenahalli'],['konanakunte'],['vajarahalli'],['thalaghattapura','talaghattapura'],['silk inst'],['dsu','dayananda','harohalli']];
+const sidx=t=>{t=(t||'').toLowerCase();const i=AL.findIndex(a=>a.some(x=>t.includes(x)));return i<0?null:i};
+const iso=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().split('T')[0]};
+let DB;try{DB=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!DB){DB={seq:10,otps:{},users:[{id:1,name:'Demo: Ananya R',phone:'9000000001'},{id:2,name:'Demo: Karthik S',phone:'9000000002'},{id:3,name:'Demo: Meera N',phone:'9000000003'}],
+ trips:[[1,'Banashankari','DSU Main Campus',1,'07:30',3,60,'Swift','KA 05 AB 1234'],[2,'Konanakunte Cross','Silk Institute',1,'08:15',2,30,'Alto','KA 01 CD 5678'],[3,'DSU Main Campus','Banashankari',1,'17:45',3,60,'WagonR','KA 03 EF 9012'],[1,'Silk Institute','DSU Main Campus',2,'08:00',2,40,'i20','KA 51 GH 3456']]
+ .map((r,i)=>({id:i+1,user_id:r[0],from_place:r[1],to_place:r[2],date:iso(r[3]),time:r[4],seats:r[5],fare:r[6],vehicle:r[7],vehicle_number:r[8]})),contacts:[],sos:[]}}
+DB.cabs=DB.cabs||[];DB.bookings=DB.bookings||[];
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}};
+const uname=id=>(DB.users.find(u=>u.id==id)||{}).name||'Someone';
+const KM=[0,4,9,13,17,20,28],DRIVERS=['Ramesh K','Suresh B','Manjunath G','Imran S','Venkatesh R','Basavaraj M'],
+CABS=[{type:'Auto',seats:3,base:30,rate:14,eta:3,car:'Bajaj Auto'},{type:'Mini',seats:4,base:50,rate:16,eta:5,car:'Tata Tiago'},{type:'Sedan',seats:4,base:70,rate:20,eta:6,car:'Maruti Dzire'},{type:'SUV',seats:6,base:100,rate:26,eta:8,car:'Toyota Innova'}];
+const wa=m=>'https://wa.me/?text='+encodeURIComponent(m);
+const fail=message=>({success:false,message});
+async function api(path,body,method){
+  const [p,qs]=path.split('?'),q=Object.fromEntries(new URLSearchParams(qs||'')),m=method||(body?'POST':'GET'),b=body||{};let x;
+  if(p==='/stats')return{open_rides:DB.trips.filter(t=>t.seats>0).length,open_seats:DB.trips.reduce((a,t)=>a+t.seats,0),riders:DB.users.length};
+  if(p==='/trips/search'){
+    const fi=sidx(q.from),ti=sidx(q.to),out=[];
+    DB.trips.filter(t=>!q.date||t.date===q.date).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).forEach(t=>{
+      const tf=sidx(t.from_place),tt=sidx(t.to_place),r={...t,driver_name:uname(t.user_id)};
+      if(![fi,ti,tf,tt].includes(null)&&fi!==ti&&tf!==tt){
+        if(fi<ti?(tf<=fi&&tt>=ti):(tf>=fi&&tt<=ti)){r.match=(tf===fi&&tt===ti)?'exact':'along_the_way';out.push(r)}
+      }else if((!q.from||t.from_place.toLowerCase().includes(q.from.toLowerCase()))&&(!q.to||t.to_place.toLowerCase().includes(q.to.toLowerCase()))){r.match='exact';out.push(r)}
+    });return{success:true,trips:out};
+  }
+  if(p==='/send-otp'){if(!/^\d{10}$/.test(b.phone||''))return fail('Enter a valid 10-digit phone number');
+    const otp=String(Math.floor(100000+Math.random()*900000));DB.otps[b.phone]=otp;return{success:true,dev_otp:otp}}
+  if(p==='/verify-otp'){if(DB.otps[b.phone]!==b.otp)return fail('Wrong OTP. Try again.');
+    let u=DB.users.find(u=>u.phone===b.phone),nu=!u;
+    if(!u){if(!b.name)return fail('Name is required for new users');u={id:++DB.seq,name:b.name,phone:b.phone};DB.users.push(u)}
+    delete DB.otps[b.phone];save();return{success:true,message:nu?'Welcome to SaathYatra, '+u.name+'!':'Welcome back, '+u.name+'!',user:u}}
+  if(p==='/trips'&&m==='POST'){const miss=['user_id','from_place','to_place','date','time','seats','fare'].find(k=>!b[k]);if(miss)return fail('Missing: '+miss);
+    DB.trips.push({id:++DB.seq,user_id:b.user_id,from_place:b.from_place,to_place:b.to_place,date:b.date,time:b.time,seats:+b.seats,fare:+b.fare,vehicle:b.vehicle||'',vehicle_number:b.vehicle_number||''});save();return{success:true}}
+  if(p==='/bookings'){const t=DB.trips.find(t=>t.id==b.trip_id);if(!t)return fail('Trip not found');if(t.seats<=0)return fail('No seats available');
+    if(t.user_id==b.user_id)return fail('You cannot book your own ride');t.seats--;DB.bookings.push({id:++DB.seq,user_id:b.user_id,from:t.from_place,to:t.to_place,date:t.date,time:t.time,fare:t.fare,driver:uname(t.user_id)});save();return{success:true}}
+  if(x=p.match(/^\/trips\/(\d+)\/share$/)){const t=DB.trips.find(t=>t.id==x[1]);if(!t)return fail('Trip not found');
+    return{success:true,whatsapp_url:wa(`SaathYatra ride\n${t.from_place} to ${t.to_place}\n${t.date} at ${t.time}\nFare: Rs ${t.fare} per seat\nSeats left: ${t.seats}\nDriver: ${uname(t.user_id)} ${t.vehicle} ${t.vehicle_number}`)}}
+  if(x=p.match(/^\/emergency-contacts\/(\d+)$/)){
+    if(m==='DELETE'){DB.contacts=DB.contacts.filter(c=>c.id!=x[1]);save();return{success:true}}
+    return{success:true,contacts:DB.contacts.filter(c=>c.user_id==x[1])}}
+  if(p==='/emergency-contacts'){if(!b.name||!b.phone)return fail('Name and phone are required');if(!/^\d{10}$/.test(b.phone))return fail('Enter a valid 10-digit phone');
+    if(DB.contacts.filter(c=>c.user_id==b.user_id).length>=3)return fail('Maximum 3 contacts allowed');
+    DB.contacts.push({id:++DB.seq,user_id:b.user_id,name:b.name,phone:b.phone,relation:b.relation});save();return{success:true,message:b.name+' added'}}
+  if(p==='/sos'){DB.sos.push({user_id:b.user_id,lat:b.latitude,lng:b.longitude,at:Date.now()});save();
+    const map=b.latitude?`https://maps.google.com/?q=${b.latitude},${b.longitude}`:'';
+    return{success:true,contacts:DB.contacts.filter(c=>c.user_id==b.user_id),maps_link:map,
+      whatsapp_sos_url:wa(`EMERGENCY ALERT\n${uname(b.user_id)} needs help.\nLocation: ${b.location_name}\n${map}\nSent via SaathYatra`)}}
+  /* ---- cab routes ---- */
+  if(p==='/cabs/estimate'){const a=sidx(q.from),z=sidx(q.to);if(a===null||z===null||a===z)return fail('Pick two different stops on the Kanakapura Road corridor.');
+    const km=Math.abs(KM[z]-KM[a]),h=+(q.time||'12').split(':')[0],peak=(h>=7&&h<10)||(h>=17&&h<20);
+    return{success:true,km,peak,mins:Math.round(km*2.2+4),options:CABS.map(c=>({type:c.type,seats:c.seats,eta:c.eta,fare:Math.round((c.base+km*c.rate)*(peak?1.2:1)/5)*5}))}}
+  if(p==='/cabs'&&m==='POST'){if(!b.user_id)return fail('Log in to book a cab');
+    const e=await api('/cabs/estimate?'+new URLSearchParams({from:b.from||'',to:b.to||'',time:b.time||''})),o=e.success&&e.options.find(o=>o.type===b.type);
+    if(!o)return fail(e.message||'Choose a cab type');
+    const c=CABS.find(c=>c.type===b.type),pick=a=>a[Math.floor(Math.random()*a.length)],r4=()=>Math.floor(1000+Math.random()*9000);
+    const cab={id:++DB.seq,user_id:b.user_id,from:b.from,to:b.to,date:b.date,time:b.time,type:b.type,fare:o.fare,km:e.km,pay:b.pay||'UPI',status:0,otp:String(r4()),eta:c.eta,
+      driver:{name:pick(DRIVERS),rating:(4.5+Math.random()*.5).toFixed(1),vehicle:c.car,plate:'KA 0'+(1+Math.floor(Math.random()*9))+' '+pick(['AB','MN','XY','HK'])+' '+r4()}};
+    DB.cabs.push(cab);save();return{success:true,cab}}
+  if(x=p.match(/^\/cabs\/user\/(\d+)$/))return{success:true,cabs:DB.cabs.filter(c=>c.user_id==x[1]).reverse(),seats:DB.bookings.filter(c=>c.user_id==x[1]).reverse()};
+  if(x=p.match(/^\/cabs\/(\d+)(?:\/(advance|cancel|share))?$/)){const c=DB.cabs.find(c=>c.id==x[1]);if(!c)return fail('Booking not found');
+    if(x[2]==='advance'&&c.status>=0&&c.status<4){c.status++;save()}
+    if(x[2]==='cancel'){if(c.status>=3)return fail('Trip already started.');c.status=-1;save()}
+    if(x[2]==='share')return{success:true,whatsapp_url:wa(`SaathYatra cab\n${c.from} to ${c.to}\n${c.date} at ${c.time}\n${c.type}: ${c.driver.vehicle} ${c.driver.plate}\nDriver: ${c.driver.name}\nFare: Rs ${c.fare}\nTrack me till I reach.`)};
+    return{success:true,cab:c}}
+  return fail('Unknown route');
+}
+function nav(){$('loginBtn').style.display=user?'none':'';$('outBtn').style.display=user?'':'none';$('who').style.display=user?'':'none';if(user)$('who').textContent=user.name}
+function logout(){LS.del('saathyatra_user');user=null;nav();toast('Logged out')}
+
+function paintStops(){
+  const f=$('from').value.trim().toLowerCase(),t=$('to').value.trim().toLowerCase();
+  $('line').innerHTML=STOPS.map(([n,big])=>`<button class="stop ${big?'big':''} ${n.toLowerCase()===f?'from':''} ${n.toLowerCase()===t?'to':''}" onclick="tapStop('${n}')"><i></i>${n}</button>`).join('');
+}
+function tapStop(n){
+  if(!$('from').value||$('to').value){$('from').value=n;$('to').value=''}
+  else if($('from').value!==n)$('to').value=n;
+  paintStops();if($('from').value&&$('to').value)search();
+}
+function swap(){const f=$('from').value;$('from').value=$('to').value;$('to').value=f;paintStops()}
+
+async function loadStats(){
+  try{const d=await api('/stats');$('stats').textContent=`${d.open_rides} rides open · ${d.open_seats} seats free · ${d.riders} people on SaathYatra`}catch(e){}
+}
+async function load(q){
+  $('board').innerHTML='<div class="empty">Loading…</div>';
+  try{
+    const d=await api('/trips/search'+(q?'?'+new URLSearchParams(q):''));
+    render(d.trips,q?`${d.trips.length} ride${d.trips.length===1?'':'s'} for your route`:'All open rides');
+  }catch(e){$('sub').textContent='Server not reachable';$('board').innerHTML='<div class="empty">Could not load rides. Refresh the page.</div>'}
+}
+function search(){load({from:$('from').value.trim(),to:$('to').value.trim(),date:$('date').value});$('rides').scrollIntoView({behavior:'smooth'})}
+function render(trips,sub){
+  $('sub').textContent=sub;TRIPS={};
+  if(!trips.length){$('board').innerHTML='<div class="empty">No rides on this route yet. <a href="#" onclick="need(\'modal-post\');return false" style="color:var(--saffron);font-weight:600">Offer the first one.</a> Or <a href="#" onclick="openCab();return false" style="color:var(--saffron);font-weight:600">book a cab</a>.</div>';return}
+  $('board').innerHTML=trips.map(t=>{TRIPS[t.id]=t;
+    const d=new Date(t.date+'T00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+    return `<div class="row">
+      <div class="time">${esc(t.time)}<small>${d}</small></div>
+      <div><div class="rt cond">${esc(t.from_place)} <span>→</span> ${esc(t.to_place)}${t.match==='along_the_way'?'<span class="tag">Passes your stops</span>':''}</div>
+        <div class="meta">${esc(t.driver_name)}${t.vehicle?' · '+esc(t.vehicle)+' '+esc(t.vehicle_number):''}</div></div>
+      <div class="fare cond">₹${esc(t.fare)}<small>${t.seats>0?t.seats+' seat'+(t.seats>1?'s':'')+' left':'Full'}</small></div>
+      <div class="acts"><button class="btn ghost sm" onclick="share(${t.id})">Share</button><button class="btn sf sm" ${t.seats>0?'':'disabled'} onclick="openBook(${t.id})">Book</button></div>
+    </div>`}).join('');
+}
+
+async function sendOTP(){
+  err('err-login','');const phone=$('l-phone').value.trim();
+  if(!/^\d{10}$/.test(phone))return err('err-login','Enter a valid 10-digit number.');
+  try{const d=await api('/send-otp',{phone});
+    if(!d.success)return err('err-login',d.message);
+    $('l1').style.display='none';$('l2').style.display='block';
+    $('otpmsg').textContent='OTP sent to '+phone+(d.dev_otp?' (demo OTP: '+d.dev_otp+')':'');
+  }catch(e){err('err-login','Cannot reach the server. Is the backend running?')}
+}
+async function verifyOTP(){
+  err('err-login','');
+  try{const d=await api('/verify-otp',{phone:$('l-phone').value.trim(),otp:$('l-otp').value.trim(),name:$('l-name').value.trim()});
+    if(!d.success)return err('err-login',d.message);
+    user=d.user;LS.set('saathyatra_user',JSON.stringify(user));closeM('modal-login');
+    $('l1').style.display='block';$('l2').style.display='none';$('l-otp').value='';nav();toast(d.message);
+  }catch(e){err('err-login','Cannot reach the server.')}
+}
+
+async function postTrip(){
+  err('err-post','');
+  const b={user_id:user.id,from_place:$('p-from').value.trim(),to_place:$('p-to').value.trim(),date:$('p-date').value,time:$('p-time').value,fare:$('p-fare').value,seats:$('p-seats').value,vehicle:$('p-veh').value.trim(),vehicle_number:$('p-vno').value.trim()};
+  if(!b.from_place||!b.to_place||!b.date||!b.time||!b.fare||!b.seats)return err('err-post','Fill in route, date, time, fare and seats.');
+  try{const d=await api('/trips',b);if(!d.success)return err('err-post',d.message);closeM('modal-post');toast('Ride posted');load();loadStats()}
+  catch(e){err('err-post','Could not post. Is the backend running?')}
+}
+let bookId=null;
+function openBook(id){
+  if(!user){openM('modal-login');return}
+  bookId=id;const t=TRIPS[id];err('err-book','');
+  $('bk').innerHTML=`<strong>${esc(t.from_place)} → ${esc(t.to_place)}</strong><br>${esc(t.date)} at ${esc(t.time)}<br>Driver: ${esc(t.driver_name)}<br>You pay: ₹${esc(t.fare)}`;
+  openM('modal-book');
+}
+async function book(){
+  try{const d=await api('/bookings',{trip_id:bookId,user_id:user.id});
+    if(!d.success)return err('err-book',d.message);closeM('modal-book');toast('Seat booked');load();loadStats();
+  }catch(e){err('err-book','Booking failed.')}
+}
+async function share(id){bookId=id;shareWA()}
+async function shareWA(){
+  try{const d=await api('/trips/'+bookId+'/share');if(d.success)window.open(d.whatsapp_url,'_blank')}catch(e){toast('Could not share',true)}
+}
+
+async function loadContacts(){
+  try{const d=await api('/emergency-contacts/'+user.id);
+    $('clist').innerHTML=d.contacts.length?d.contacts.map(c=>`<div class="ctc"><div><strong>${esc(c.name)}</strong> ${c.relation?'· '+esc(c.relation):''}<br><span class="meta">${esc(c.phone)}</span></div><button class="btn ghost sm" onclick="delContact(${c.id})">Remove</button></div>`).join(''):'<p class="meta" style="margin-bottom:10px">No contacts yet. Add up to three.</p>';
+  }catch(e){}
+}
+async function addContact(){
+  err('err-c','');
+  try{const d=await api('/emergency-contacts',{user_id:user.id,name:$('c-name').value.trim(),phone:$('c-phone').value.trim(),relation:$('c-rel').value.trim()});
+    if(!d.success)return err('err-c',d.message);['c-name','c-phone','c-rel'].forEach(i=>$(i).value='');toast(d.message);loadContacts();
+  }catch(e){err('err-c','Could not save contact.')}
+}
+async function delContact(id){await api('/emergency-contacts/'+id,null,'DELETE');loadContacts()}
+
+async function sosPreview(){
+  $('sosres').innerHTML='';
+  if(!user){$('sosprev').textContent='Log in to save emergency contacts. SOS still opens WhatsApp with your location.';return}
+  try{const d=await api('/emergency-contacts/'+user.id);
+    $('sosprev').innerHTML=d.contacts.length?'<strong>Will alert:</strong><br>'+d.contacts.map(c=>esc(c.name)+': +91 '+esc(c.phone)).join('<br>'):'No emergency contacts saved yet.';
+  }catch(e){}
+}
+async function sendSOS(){
+  const b=$('sosBtn');b.disabled=true;b.textContent='Finding your location…';
+  let lat=null,lng=null,name='Location unavailable';
+  try{const p=await new Promise((ok,no)=>navigator.geolocation.getCurrentPosition(ok,no,{timeout:8000}));lat=p.coords.latitude;lng=p.coords.longitude;name=`GPS ${lat.toFixed(4)}, ${lng.toFixed(4)}`}catch(e){}
+  b.textContent='Sending alert…';
+  try{
+    const d=await api('/sos',{user_id:user?user.id:null,latitude:lat,longitude:lng,location_name:name});
+    if(!d.success)throw 0;
+    $('sosres').innerHTML=`<div class="box"><strong>Alert logged.</strong> ${esc(name)}<br>${d.contacts.length?d.contacts.length+' contact(s) listed.':'No contacts saved.'}</div>`;
+    if(d.whatsapp_sos_url)setTimeout(()=>window.open(d.whatsapp_sos_url,'_blank'),400);
+  }catch(e){
+    window.open('https://wa.me/?text='+encodeURIComponent(`EMERGENCY: ${user?user.name:'Someone'} needs help. ${name}`),'_blank');
+    toast('Server unreachable. WhatsApp opened instead.',true);
+  }
+  b.disabled=false;b.textContent='Send SOS again';
+}
+
+/* ---- Cab booking (UI) ---- */
+let FARE=null,cabType=null,cabId=null,cabTimer=null;
+const STAGES=['Finding a driver…','Driver on the way','Driver has arrived','On your trip','Trip completed'];
+function openCab(){
+  const n=new Date();$('c-date').value=n.toLocaleDateString('en-CA');$('c-time').value=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+  $('c-from').value=$('from').value;$('c-to').value=$('to').value;err('err-cab','');$('fares').innerHTML='';openM('modal-cab');
+}
+async function getFares(){
+  err('err-cab','');const f=$('c-from').value.trim(),t=$('c-to').value.trim();
+  const d=await api('/cabs/estimate?'+new URLSearchParams({from:f,to:t,time:$('c-time').value}));
+  if(!d.success){$('fares').innerHTML='';return err('err-cab',d.message)}
+  const s=await api('/trips/search?'+new URLSearchParams({from:f,to:t})),cheap=s.trips.filter(x=>x.seats>0).sort((a,b)=>a.fare-b.fare)[0];
+  FARE=d;cabType=d.options[1].type;
+  $('fares').innerHTML=`<p class="meta" style="margin-bottom:8px">${d.km} km · about ${d.mins} min${d.peak?' · <b>peak hours, fares +20%</b>':''}</p>`
+   +d.options.map(o=>`<div class="opt ${o.type===cabType?'on':''}" data-t="${o.type}" onclick="pickCab('${o.type}')"><div><b>${o.type}</b><em>${o.seats} seats · ${o.eta} min away</em></div><span class="p">₹${o.fare}</span></div>`).join('')
+   +(cheap?`<div class="box">Cheaper: share a ride from ₹${esc(cheap.fare)} a seat (${esc(cheap.from_place)} → ${esc(cheap.to_place)}, ${esc(cheap.time)}). Close this and tap Book on it.</div>`:'')
+   +`<label for="c-pay">Pay by</label><select id="c-pay"><option>UPI</option><option>Cash</option><option>Card</option></select><button class="btn sf" id="bookCabBtn" style="margin-top:12px" onclick="bookCab()">Book ${cabType}</button>`;
+}
+function pickCab(t){cabType=t;document.querySelectorAll('.opt').forEach(e=>e.classList.toggle('on',e.dataset.t===t));$('bookCabBtn').textContent='Book '+t}
+async function bookCab(){
+  if(!user){closeM('modal-cab');openM('modal-login');return}
+  const d=await api('/cabs',{user_id:user.id,from:$('c-from').value.trim(),to:$('c-to').value.trim(),date:$('c-date').value,time:$('c-time').value,type:cabType,pay:$('c-pay').value});
+  if(!d.success)return err('err-cab',d.message);
+  closeM('modal-cab');toast('Cab requested');track(d.cab.id);
+}
+async function track(id){
+  cabId=id;openM('modal-track');paintCab((await api('/cabs/'+id)).cab);
+  clearInterval(cabTimer);cabTimer=setInterval(step,4500);
+}
+async function step(){const d=await api('/cabs/'+cabId+'/advance',{});paintCab(d.cab)}
+function paintCab(c){
+  if(!c)return;const s=c.status,dr=c.driver;
+  if(s<0||s>=4)clearInterval(cabTimer);
+  $('tk-h').textContent=s<0?'Cab cancelled':STAGES[s];
+  $('tk-steps').innerHTML=[1,2,3,4].map(i=>`<i class="${s>=i?'d':''}"></i>`).join('');
+  let h=`<strong>${esc(c.from)} → ${esc(c.to)}</strong><br>${esc(c.date)} at ${esc(c.time)} · ${c.km} km<br>${esc(c.type)} · ₹${c.fare} · pay by ${esc(c.pay)}`;
+  if(s===0)h+='<br><br>Contacting drivers near you…';
+  if(s>=1)h+=`<br><br><strong>${esc(dr.name)}</strong> · ★ ${dr.rating}<br>${esc(dr.vehicle)} · ${esc(dr.plate)}`;
+  if(s===1)h+=`<br>Arriving in about ${c.eta} min`;
+  if(s===1||s===2)h+=`<br><br>Share this OTP with the driver to start:<div class="otp">${c.otp}</div>`;
+  if(s===4)h+='<br><br>Thanks for riding with SaathYatra.';
+  $('tk-body').innerHTML=h;
+  $('tk-cancel').style.display=(s>=0&&s<3)?'':'none';
+  $('tk-skip').style.display=(s>=0&&s<4)?'':'none';
+  $('tk-share').style.display=s>=1?'':'none';
+}
+async function cancelCab(){const d=await api('/cabs/'+cabId+'/cancel',{});if(!d.success)return toast(d.message,true);paintCab(d.cab);toast('Cab cancelled')}
+async function shareCab(){const d=await api('/cabs/'+cabId+'/share');if(d.success)window.open(d.whatsapp_url,'_blank')}
+async function openMy(){
+  if(!user){openM('modal-login');return}
+  const d=await api('/cabs/user/'+user.id),L=['Searching','On the way','Arrived','On trip','Completed'];
+  const cabs=d.cabs.map(c=>`<div class="ctc" style="cursor:pointer" onclick="closeM('modal-my');track(${c.id})"><div><strong>${esc(c.from)} → ${esc(c.to)}</strong><br><span class="meta">${esc(c.date)} ${esc(c.time)} · Cab ${esc(c.type)} · ₹${c.fare}</span></div><span class="tag">${c.status<0?'Cancelled':L[c.status]}</span></div>`);
+  const seats=d.seats.map(b=>`<div class="ctc"><div><strong>${esc(b.from)} → ${esc(b.to)}</strong><br><span class="meta">${esc(b.date)} ${esc(b.time)} · with ${esc(b.driver)} · ₹${esc(b.fare)}</span></div><span class="tag">Carpool</span></div>`);
+  $('mylist').innerHTML=cabs.concat(seats).join('')||'<p class="meta">No bookings yet. Book a cab or grab a carpool seat.</p>';
+  openM('modal-my');
+}
+
+window.onload=()=>{
+  const today=new Date().toISOString().split('T')[0];$('date').value='';$('p-date').value=today;
+  $('places').innerHTML=STOPS.map(s=>`<option value="${s[0]}">`).join('');
+  $('from').oninput=$('to').oninput=paintStops;
+  paintStops();nav();load();loadStats();
+};
+</script>
+</body>
+</html>
